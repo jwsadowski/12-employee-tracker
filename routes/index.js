@@ -59,6 +59,57 @@ const updateManager = async () => {
     menuPrompt()
 }
 
+const deleteDepartment = async () => {
+    const answer = await inquirer.prompt([
+        {
+            type: 'input',
+            name: 'department',
+            message: 'Which department do you want to delete?'
+        }
+    ])
+    const [results] = await connection.promise().query(
+        `DESTROY department WHERE department_id = ?`,
+        [answer.department_id]
+    )
+    console.log('Department deleted')
+
+    menuPrompt()
+}
+
+const deleteRole = async () => {
+    const answer = await inquirer.prompt([
+        {
+            type: 'input',
+            name: 'role',
+            message: 'Which role do you want to delete?'
+        }
+    ])
+    const [results] = await connection.promise().query(
+        `DESTROY role WHERE role_id = ?`,
+        [answer.role_id]
+    )
+    console.log('Role deleted')
+
+    menuPrompt()
+}
+
+const deleteEmployee = async () => {
+    const answer = await inquirer.prompt([
+        {
+            type: 'input',
+            name: 'employee',
+            message: 'Which employee do you want to delete?'
+        }
+    ])
+    const [results] = await connection.promise().query(
+        `DESTROY employee WHERE employee_id = ?`,
+        [answer.employee_id]
+    )
+    console.log("Employee deleted")
+
+    menuPrompt()
+}
+
 const menuPrompt = async () => {
     const answers = await inquirer.prompt([
         {
