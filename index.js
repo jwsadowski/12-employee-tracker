@@ -119,6 +119,86 @@ const deleteEmployee = async () => {
     menuPrompt()
 }
 
+const viewSalesBudget = async () => {
+    const answer = await inquirer.prompt([
+        {
+            type: 'input',
+            name: 'sales budget',
+            message: 'Total salaries in sales department'
+        }
+    ])
+
+    const [results] = await connection.promise().query(
+        `SELECT salary FROM role WHERE department_id = 1`,
+        [answer.department_id]
+    )
+    console.table(results)
+
+    console.log("Here's the total utilized budget of the Sales department")
+
+    menuPrompt()
+}
+
+const viewEngineeringBudget = async () => {
+    const answer = await inquirer.prompt([
+        {
+            type: 'input',
+            name: 'budget',
+            message: 'Total salaries in Engineering department'
+        }
+    ])
+
+    const [results] = await connection.promise().query(
+        `SELECT salary FROM role WHERE department_id = 2`,
+        [answer.department_id]
+    )
+    console.table(results)
+
+    console.log("Here's the total utilized budget of the engineering department")
+
+    menuPrompt()
+}
+
+const viewFinanceBudget = async () => {
+    const answer = await inquirer.prompt([
+        {
+            type: 'input',
+            name: 'budget',
+            message: 'Total salaries in finance department'
+        }
+    ])
+
+    const [results] = await connection.promise().query(
+        `SELECT salary FROM role WHERE department_id = 3`,
+        [answer.department_id]
+    )
+    console.table(results)
+
+    console.log("Here's the total utilized budget of the finance department")
+
+    menuPrompt()
+}
+
+const viewLegalBudget = async () => {
+    const answer = await inquirer.prompt([
+        {
+            type: 'input',
+            name: 'budget',
+            message: 'Total salaries in legal department'
+        }
+    ])
+
+    const [results] = await connection.promise().query(
+        `SELECT salary FROM role WHERE department_id = 4`,
+        [answer.department_id]
+    )
+    console.table(results)
+
+    console.log("Here's the total utilized budget of the legal department")
+
+    menuPrompt()
+}
+
 const menuPrompt = async () => {
     const answers = await inquirer.prompt([
         {
