@@ -1,14 +1,16 @@
-const mysql = require('mysql2')
-const inquirer = require('inquirer')
+import dotenv from 'dotenv'
+dotenv.config()
+import mysql from 'mysql2'
+import inquirer from 'inquirer'
 
 const connection = mysql.createConnection ({
     host: 'localhost',
     user: 'root',
-    password: 'SQLpassword1!',
+    password: 'SQLpassword1',
     database: 'employees_db'
 })
 
-const viewEmployees = async () => {
+const viewManager = async () => {
     const answers = await inquirer.prompt([
         {
             type: 'input',
@@ -23,7 +25,7 @@ const viewEmployees = async () => {
     ])
 
     const [results] = await connection.promise().query(
-        'SELECT * FROM employees WHERE first_name = ? && last_name = ?',
+        'SELECT * FROM manager WHERE first_name = ? && last_name = ?',
         [answers.first_name, answers.last_name]
     )
 
@@ -71,6 +73,9 @@ const deleteDepartment = async () => {
         `DESTROY department WHERE department_id = ?`,
         [answer.department_id]
     )
+
+    console.table(results)
+    
     console.log('Department deleted')
 
     menuPrompt()
@@ -88,6 +93,8 @@ const deleteRole = async () => {
         `DESTROY role WHERE role_id = ?`,
         [answer.role_id]
     )
+    console.table(results)
+    
     console.log('Role deleted')
 
     menuPrompt()
@@ -105,6 +112,8 @@ const deleteEmployee = async () => {
         `DESTROY employee WHERE employee_id = ?`,
         [answer.employee_id]
     )
+    console.table(results)
+    
     console.log("Employee deleted")
 
     menuPrompt()
@@ -116,30 +125,24 @@ const menuPrompt = async () => {
             type: 'list',
             name: 'action',
             message: 'What do you want to do?',
-            choices: ['Search actors', 'Add a manager', 'Update a manager', 'Exit']
+            choices: ['Search managers', 'Add a manager', 'Update a manager', 'Exit']
         }
     ])
+    if (answers.action === 'View Managers') {
+        viewManagers()
+    } else if (answers.action === 'Add a manager') {
+        addManager()
+    } else if (answers.action === 'Update a manager') {
+        updateManager()
+    } else if (answers.action === 'Delete a department') {
+        deleteDepartment()
+    } else if (answers.action === 'Delete a role') {
+        deleteRole()
+    } else if (answers.action === 'Delete an employee') {
+        deleteEmployee()
+    }
 }
 
 menuPrompt()
-
-if (answers.action === 'View Managers') {
-    viewManagers()
-} else if (answers.action === 'Add a manager') {
-    addManager()
-} else if (answers.action === 'Update a manager') {
-    updateManager()
-} else if (answers.action === 'Delete a department') {
-    deleteDepartment()
-} else if (answers.action === 'Delete a role') {
-    deleteRole()
-} else if (answers.action === 'Delete an employee') {
-    deleteEmployee()
-}
-
-
-
-
-       
 
 
